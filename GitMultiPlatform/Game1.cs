@@ -9,6 +9,8 @@ namespace GitMultiPlatform
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D _misc;
+        private int _posX = 100;
+        private int _posY = 100;
 
         public Game1()
         {
@@ -19,8 +21,6 @@ namespace GitMultiPlatform
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -28,15 +28,33 @@ namespace GitMultiPlatform
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _misc = Content.Load<Texture2D>("Misc");
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            KeyboardState keyboard = Keyboard.GetState();
 
-            // TODO: Add your update logic here
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || keyboard.IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+
+            if (keyboard.IsKeyDown(Keys.Left))
+            {
+                _posX--;
+            }
+            if (keyboard.IsKeyDown(Keys.Right))
+            {
+                _posX++;
+            }
+            if (keyboard.IsKeyDown(Keys.Up))
+            {
+                _posY--;
+            }
+            if (keyboard.IsKeyDown(Keys.Down))
+            {
+                _posY++;
+            }
 
             base.Update(gameTime);
         }
@@ -46,10 +64,8 @@ namespace GitMultiPlatform
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_misc, new Vector2(100, 100), Color.White);
+            _spriteBatch.Draw(_misc, new Vector2(_posX, _posY), Color.White);
             _spriteBatch.End();
-
-            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }
